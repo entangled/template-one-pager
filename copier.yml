@@ -1,0 +1,5 @@
+_subdirectory: template
+
+_message_after_copy: |
+    Your Entangled project has been generated
+
