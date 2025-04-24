@@ -54,7 +54,6 @@ We combine everything into a script.
 #| classes: ["task"]
 #| description: Render 256 lines of Rule 30
 #| stdout: rule30.pbm
-#| collect: figures
 
 <<rule-30>>
 <<triples>>
@@ -67,11 +66,24 @@ result = list(run_ca(rule_30, state, 256))
 write_pbm(result)
 ```
 
+Now all that remains to do is convert the PBM into a PNG:
+
+```bash
+#| classes: ["task"]
+#| description: Convert PBM image to PNG
+#| requires: rule30.pbm
+#| creates: rule30.png
+#| collect: figures
+
+magick rule30.pbm rule30.png
+```
+
 You can run this script using:
 
 ```bash
+entangled tangle
 brei figures
 ```
 
-![Rule 30](./rule30.pbm)
+![Rule 30](./rule30.png)
 
