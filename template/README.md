@@ -18,19 +18,20 @@ To compute this cellular automaton, we need to scan a list of bits for patterns 
 from typing import Generator
 
 def triples[T](lst: list[T], pad: T) -> Generator[tuple[T, T, T]]:
-    yield (pad, *lst[0:2])
+    yield (pad, lst[0], lst[1])
     for i in range(len(lst) - 2):
-        yield tuple(lst[i:i+3])
-    yield (*lst[-2:], pad)
+        yield (lst[i], lst[i+1], lst[i+2])
+    yield (lst[-2], lst[-1], pad)
 ```
 
 The `run_ca` function runs the cellular automaton for `n` generations given some initial state.
 
 ```python
 #| id: run-ca
+from typing import Callable
 from itertools import starmap
 
-def run_ca(rule, state, n):
+def run_ca(rule: Callable[[bool, bool, bool], bool], state: list[bool], n: int) -> Generator[list[bool]]:
     yield state
     for i in range(n-1):
         state = list(starmap(rule, triples(state, False)))
@@ -51,6 +52,7 @@ def write_pbm(lines: list[list[bool]]):
 We combine everything into a script.
 
 ```python
+#| file: rule30.py
 #| classes: ["task"]
 #| description: Render 256 lines of Rule 30
 #| stdout: rule30.pbm
@@ -86,4 +88,10 @@ brei figures
 ```
 
 ![Rule 30](./rule30.png)
+
+And we can type check:
+
+```bash
+mypy rule30.py
+```
 
